@@ -1,4 +1,5 @@
 var autoprefixer = require('autoprefixer');
+var precss = require('precss');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
@@ -6,8 +7,6 @@ var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 var WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 var getClientEnvironment = require('./env');
 var paths = require('./paths');
-
-
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -132,14 +131,13 @@ module.exports = {
           cacheDirectory: true
         }
       },
-      // "postcss" loader applies autoprefixer to our CSS.
-      // "css" loader resolves paths in CSS and adds assets as dependencies.
-      // "style" loader turns CSS into JS modules that inject <style> tags.
+      // style-loader turns CSS into JS modules that inject <style> tags.
+      // css-loader parses CSS file and applies transforms to it.
       // In production, we use a plugin to extract that CSS to a file, but
       // in development "style" loader enables hot editing of CSS.
       {
         test: /\.css$/,
-        loader: 'style!css?importLoaders=1!postcss'
+        loader: 'style-loader!css-loader?modules=true&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
@@ -161,6 +159,7 @@ module.exports = {
   // We use PostCSS for autoprefixing only.
   postcss: function() {
     return [
+      precss({ parser: require('postcss-scss') }),
       autoprefixer({
         browsers: [
           '>1%',

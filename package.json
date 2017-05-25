@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "autoprefixer": "6.5.1",
+    "autoprefixer": "^6.5.1",
     "babel-core": "6.17.0",
     "babel-eslint": "7.1.1",
     "babel-jest": "17.0.2",
@@ -35,6 +35,8 @@
     "object-assign": "4.1.0",
     "path-exists": "2.1.0",
     "postcss-loader": "1.0.0",
+    "postcss-scss": "^1.0.0",
+    "precss": "^1.4.0",
     "promise": "7.1.1",
     "react-dev-utils": "^0.4.2",
     "recursive-readdir": "2.1.0",
@@ -85,7 +87,9 @@
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
     ],
     "moduleNameMapper": {
-      "^react-native$": "react-native-web"
+      "^react-native$": "react-native-web",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "identity-obj-proxy"
     }
   },
   "babel": {

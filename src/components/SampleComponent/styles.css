@@ -1,0 +1,6 @@
+@import './../../utils/styles/colours';
+
+.h1 {
+  color: $tomato;
+  font-size: 18px;
+}

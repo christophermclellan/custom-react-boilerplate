@@ -1,4 +1,6 @@
 var autoprefixer = require('autoprefixer');
+var precss = require('precss');
+var postcss_scss = require('postcss-scss');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -7,8 +9,6 @@ var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 var url = require('url');
 var paths = require('./paths');
 var getClientEnvironment = require('./env');
-
-
 
 function ensureSlash(path, needsSlash) {
   var hasSlash = path.endsWith('/');
@@ -146,7 +146,7 @@ module.exports = {
       // in the main CSS file.
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style', 'css?importLoaders=1!postcss')
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules=true&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader')
         // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify
@@ -169,6 +169,7 @@ module.exports = {
   // We use PostCSS for autoprefixing only.
   postcss: function() {
     return [
+      precss({ parser: require('postcss-scss') }),
       autoprefixer({
         browsers: [
           '>1%',
